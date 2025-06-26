@@ -1,16 +1,11 @@
-
-
-// It handles creating a new user.
+const API_BASE_URL = 'http://localhost:5000/api';
 import api from "./axiosConfig.js";
+import axios from "axios";
 
 export const registerUser = async (username, password) => {
     try {
-        // --- FIX 2: Use 'api.post' so it uses the base URL from the config ---
-        // NOTE: Registration should not require auth, so this call doesn't use the interceptor.
-        // We use a separate axios instance here ONLY for registration if it's public.
-        // But for consistency, let's assume it can go through the base config.
-        // For a public endpoint, you might need a different setup, but let's try this first.
-        await api.post('/register', {
+        // FIX: Change '/register' to '/users' to match your UserController
+        await axios.post(`${API_BASE_URL}/users`, {
             username,
             password,
         });

@@ -4,6 +4,7 @@ import lt.techin.booksDB.model.User;
 import lt.techin.booksDB.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -43,5 +44,14 @@ public class UserController {
             )
             .body(savedUser);
 
+  }
+
+  @GetMapping("/user")
+  public ResponseEntity<User> getAuthenticatedUser(@AuthenticationPrincipal User user) {
+    // The 'user' parameter is automatically populated by Spring Security
+    // with the details of the user who made the request.
+    // If the request was not authenticated, Spring Security would have already
+    // returned a 401 error before this method was even called.
+    return ResponseEntity.ok(user);
   }
 }
