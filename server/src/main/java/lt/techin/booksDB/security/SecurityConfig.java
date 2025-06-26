@@ -23,6 +23,7 @@ public class SecurityConfig {
             //ijungtas by default ir
             // uzkomentuot nepades, reikia disablint
             // DISABLE ONLY FOR DEV PURPOSES!!!!!
+            .cors().and()
             .csrf(c -> c.disable())
             .httpBasic(Customizer.withDefaults())
             .formLogin(Customizer.withDefaults())
@@ -30,6 +31,13 @@ public class SecurityConfig {
             // cia galime nurody kas turi prieiga prie kokiu kokiu metodu ir prie kokiu endpointu
             .authorizeHttpRequests(authorize ->
                     authorize
+                            .requestMatchers("/api/auth/**").permitAll()
+                            // Allow OPTIONS requests for CORS pre-flight
+                            .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                            // Secure all other API endpoints
+                            .requestMatchers("/api/**").authenticated()
+                            // Allow access to anything else (like non-API pages, if any)
+
                             // === ADMIN-ONLY ENDPOINTS ===
                             // Admins can manage servicers (Create, Update, Delete)
                             .requestMatchers(HttpMethod.POST, "/api/servicers").hasRole("ADMIN")

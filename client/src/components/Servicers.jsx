@@ -7,7 +7,7 @@ function Servicers({ servicers, setUpdate }) {
   return (
     <div className="grid grid-cols-3">
       {servicers.map((servicer) => (
-        <Servicer key={servicer.id} book={servicer} setUpdate={setUpdate} setModalId={setModalId} modalId={modalId}/>
+        <Servicer key={servicer.id} servicer={servicer} setUpdate={setUpdate} setModalId={setModalId} modalId={modalId}/>
       ))}
     </div>
   );

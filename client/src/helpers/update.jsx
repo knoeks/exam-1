@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "http://localhost:5000/api/books";
+const url = "http://localhost:5000/api/mechanic";
 
 export const updateOne = async (id, data) => {
   console.log(data);

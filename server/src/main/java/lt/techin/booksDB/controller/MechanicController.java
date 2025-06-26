@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/mechanics")
-@CrossOrigin(origins = "http://localhost:5173")
 public class MechanicController {
 
     private final MechanicService mechanicService;

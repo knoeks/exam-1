@@ -8,21 +8,15 @@ function NavBar() {
       <div className="flex justify-end">
         <NavLink
           className="py-3 px-8 hover:bg-dark-orange rounded-lg transition-colors drop-shadow-md"
+          to="/mechanics"
+        >
+          Mechanics
+        </NavLink>
+        <NavLink
+          className="py-3 px-8 hover:bg-dark-orange rounded-lg transition-colors drop-shadow-md"
           to="/"
         >
-          Home
-        </NavLink>
-        <NavLink
-          className="py-3 px-8 hover:bg-dark-orange rounded-lg transition-colors drop-shadow-md"
-          to="/register"
-        >
-          Register
-        </NavLink>
-        <NavLink
-          className="py-3 px-8 hover:bg-dark-orange rounded-lg transition-colors drop-shadow-md"
-          to="/about"
-        >
-          About
+          Services
         </NavLink>
       </div>
     </nav>

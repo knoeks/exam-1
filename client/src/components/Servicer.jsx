@@ -1,52 +1,61 @@
-import { getOne } from "../helpers/get";
-import { updateOne } from "../helpers/update";
+// src/components/Servicer.jsx
+
 import EditModal from "./modals/EditModal";
 
 function Servicer({ servicer, setUpdate, modalId, setModalId }) {
-  const { title, author, category, price, cover, reserved, id } = servicer;
-
-  const reserveHandler = async () => {
-    const { reserved } = await getOne(id);
-    await updateOne(id, {...servicer, reserved: !reserved });
-    setUpdate((prevState) => prevState + 1);
-  };
+  // --- FIX 1: Destructure the CORRECT properties from the servicer object ---
+  const { id, name, address, managerName, mechanics } = servicer;
 
   const openEditModalHandler = () => {
-    console.log(modalId);
-    if (modalId == id) {
+    // This handler remains the same. It correctly toggles the modal.
+    if (modalId === id) {
       setModalId("");
-    } else setModalId(id);
+    } else {
+      setModalId(id);
+    }
   };
 
   return (
-    <div className="shadow m-3 border py-2 flex items-center justify-around">
-      <div className="flex flex-col">
-        <div className="flex flex-col items-center">
-          <h1>{title}</h1>
-          <p>{author}</p>
-          <p>category: {category}</p>
-          <p>price: {price}</p>
-          <img src={cover} alt={title + " cover"} />
+      <div className="shadow-lg m-4 p-6 border rounded-xl flex flex-col justify-between w-full max-w-sm bg-white transition-shadow hover:shadow-2xl">
+        {/* Main Content Area */}
+        <div className="text-center mb-4">
+          {/* Display the servicer's name as the main heading */}
+          <h2 className="text-2xl font-bold text-gray-800">{name}</h2>
+
+          {/* Display address and manager's name */}
+          <p className="text-md text-gray-600 mt-2">{address}</p>
+          <p className="text-sm text-gray-500 mt-1">Manager: {managerName}</p>
         </div>
-        <div className="w-56 flex justify-center my-3">
+
+        {/* --- FIX 2: Handle the nested mechanics list gracefully --- */}
+        <div className="text-left text-sm border-t pt-4">
+          <p>
+            <span className="font-semibold text-gray-700">Mechanics on Staff: </span>
+            {/* Use optional chaining (?.) for safety and display the number of mechanics */}
+            <span className="text-gray-600">{mechanics?.length || 0}</span>
+          </p>
+        </div>
+
+        {/* Action Buttons Area */}
+        <div className="w-full flex justify-center mt-6">
           <button
-            className="ml-4 shadow border px-1"
-            onClick={() => reserveHandler(id)}
+              className="px-6 py-2 font-semibold text-gray-800 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+              onClick={openEditModalHandler}
           >
-            {reserved ? "turn back" : "reserved"}
-          </button>
-          <button
-            className="ml-4 shadow border px-1"
-            onClick={openEditModalHandler}
-          >
-            Edit
+            Edit Details
           </button>
         </div>
+
+        {/* Modal rendering logic (unchanged) */}
+        {modalId === id && (
+            <EditModal
+                setUpdate={setUpdate}
+                setModalId={setModalId}
+                entity={servicer} // Pass the entire servicer object
+                entityType="Servicer" // Let the modal know what it's editing
+            />
+        )}
       </div>
-      {modalId == id && (
-        <EditModal setUpdate={setUpdate} modalId={modalId} setModalId={setModalId} servicer={servicer} />
-      )}
-    </div>
   );
 }
 

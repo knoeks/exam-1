@@ -1,14 +1,12 @@
-import axios from "axios";
-const url = "http://localhost:5000/api/books";
+import api from "./axiosConfig.js";
 
-export const getAll = async () => {
-  const response = await axios.get(url);
-  //cia bus grazinamas masyvas objektu
+export const getAllMechanics = async () => {
+  const response = await api.get('/mechanics'); // The auth header is added automatically!
   return response.data;
 };
 
-export const getOne = async (id) => {
-  const response = await axios.get(url + "/" + id);
-  //cia vienas objektas bus grazinamas
+// For Servicers
+export const getAllServicers = async () => {
+  const response = await api.get('/servicers'); // The auth header is added automatically!
   return response.data;
-}
+};
