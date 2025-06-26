@@ -1,39 +1,38 @@
-import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api';
 
-// --- THIS IS THE NEW FUNCTION YOU NEED TO ADD ---
 // It handles creating a new user.
+import api from "./axiosConfig.js";
+
 export const registerUser = async (username, password) => {
     try {
-        // A registration endpoint is typically a POST request.
-        // It sends the new user's data in the request body.
-        // Ensure your backend has a PUBLIC endpoint at /api/register or similar.
-        await axios.post(`${API_BASE_URL}/register`, {
+        // --- FIX 2: Use 'api.post' so it uses the base URL from the config ---
+        // NOTE: Registration should not require auth, so this call doesn't use the interceptor.
+        // We use a separate axios instance here ONLY for registration if it's public.
+        // But for consistency, let's assume it can go through the base config.
+        // For a public endpoint, you might need a different setup, but let's try this first.
+        await api.post('/register', {
             username,
             password,
         });
-        // If the request above succeeds (doesn't throw an error), registration was successful.
         return true;
     } catch (error) {
-        // This will likely fail if the username already exists (e.g., a 409 Conflict error).
         console.error('Registration failed:', error.response?.data || error.message);
         return false;
     }
 };
 
-
 // This is your existing function, which is correct for logging in.
 export const verifyLogin = async (username, password) => {
     try {
-        // We make a request to a protected endpoint to test the credentials.
-        await axios.get(`${API_BASE_URL}/user`, { // Or any simple, protected endpoint
+        // --- FIX 3: Use 'api.get' and pass the auth config directly ---
+        // The interceptor might not have the credentials yet during the login check,
+        // so we explicitly provide them for this one verification call.
+        await api.get('/user', {
             auth: {
                 username: username,
                 password: password,
             },
         });
-        // If the request above does NOT throw an error, credentials are valid.
         return true;
     } catch (error) {
         console.error('Login verification failed:', error.response?.data || error.message);

@@ -2,6 +2,9 @@ import api from "./axiosConfig.js";
 
 export const getAllMechanics = async () => {
   const response = await api.get('/mechanics'); // The auth header is added automatically!
+
+  console.log(response.data)
+
   return response.data;
 };
 
